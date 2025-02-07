@@ -3,13 +3,10 @@ from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from controllers.uploadHandler import uploadController
 from configs import config
-import os
 
 app = FastAPI(debug=True)
 
-origins = [
-    "http://localhost:5174",
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -22,8 +19,10 @@ app.add_middleware(
 @app.post("/upload-video/")
 async def upload_video(file: UploadFile = File(...), title: str = Form(...), descriptipn: str = Form(...)):
     uploads_dir = config.UPLOADS_DIR
-    uploadController(title, descriptipn, file, uploads_dir)
-    
+    print('main1---------------')
+    video = await uploadController(title, descriptipn, file, uploads_dir)
+    print('main9---------------')
+    print(video)
     return {"filename": file.filename, "message": "Video uploaded successfully"}
 
 if __name__ == "__main__":

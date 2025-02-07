@@ -21,7 +21,7 @@ export default function VideoUpload() {
     const formData = new FormData();
     formData.append("file", video);
     formData.append("title", title);
-    formData.append("description", description);
+    formData.append("descriptipn", description);
 
     try {
       const response = await fetch("http://localhost:8000/upload-video", {

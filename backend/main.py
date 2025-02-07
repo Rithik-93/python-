@@ -2,9 +2,12 @@ import uvicorn
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from controllers.uploadHandler import uploadController
+from auth import router as auth_router
 from configs import config
 
 app = FastAPI(debug=True)
+
+app.include_router(auth_router, prefix='/auth', tags=["authentication"])
 
 origins = ["*"]
 

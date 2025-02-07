@@ -1,4 +1,8 @@
 fastapi
 uvicorn
 pydantic
-ffmpeg-python
+audio_extract
+sqlalchemy
+pgvector
+dotenv
+uuid

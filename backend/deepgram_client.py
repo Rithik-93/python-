@@ -26,7 +26,7 @@ def speech_to_text(audioPath: str) -> str:
         response = deepgram.listen.rest.v("1").transcribe_file(payload, options)
         data = response.results.channels[0].alternatives[0].transcript
 
-        print(data,'laaaaaaaaaaaaaa')
+        print(data)
         return data
 
     except Exception as e:

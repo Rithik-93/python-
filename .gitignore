@@ -2,3 +2,4 @@ venv/
 test.db
 .idea/
 node_modules
+.env

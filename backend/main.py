@@ -17,10 +17,10 @@ app.add_middleware(
 )
 
 @app.post("/upload-video/")
-async def upload_video(file: UploadFile = File(...), title: str = Form(...), descriptipn: str = Form(...)):
+def upload_video(file: UploadFile = File(...), title: str = Form(...), descriptipn: str = Form(...)):
     uploads_dir = config.UPLOADS_DIR
     print('main1---------------')
-    video = await uploadController(title, descriptipn, file, uploads_dir)
+    video = uploadController(title, descriptipn, file, uploads_dir)
     print('main9---------------')
     print(video)
     return {"filename": file.filename, "message": "Video uploaded successfully"}

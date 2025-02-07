@@ -1,5 +1,5 @@
 import os
-from fastapi import UploadFile, Depends
+from fastapi import UploadFile
 from sqlalchemy.orm import Session
 from helper import extract_audio
 from deepgram_client import speech_to_text
@@ -8,7 +8,7 @@ from insert import insert_video
 from singleton import get_db
 from models import Video
 
-async def uploadController(title: str, description: str, file: UploadFile, uploadDir: str, db: Session = Depends(get_db)) -> Video:
+def uploadController(title: str, description: str, file: UploadFile, uploadDir: str) -> Video:
     """Handles video uploads, extracts audio, generates embeddings, and inserts into DB."""
 
     print('main2---------------')
@@ -33,7 +33,7 @@ async def uploadController(title: str, description: str, file: UploadFile, uploa
         print(f"🎵 Audio extracted: {audio_file_path}")
         tempAudio = './harvard.wav'
 
-        audio_transcript: str = await speech_to_text(tempAudio)
+        audio_transcript: str = speech_to_text(tempAudio)
         # if not audio_transcript:
         #     raise ValueError("Failed to generate audio transcript")
 
@@ -45,7 +45,11 @@ async def uploadController(title: str, description: str, file: UploadFile, uploa
         description_embedding = generateEmbedding(description)
         print("🔢 Embeddings generated successfully")
 
+        db = next(get_db())
+
+        print('inserting')
         video = insert_video(db, title, title_embedding, description, description_embedding, audio_transcript, audio_embedding)
+        print('inserting----------')
         print(f"Video inserted into DB: {video.id}")
 
         return video
